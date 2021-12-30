@@ -2,6 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { BooksModule } from './books/books.module';
+import { OrdersModule } from './orders/orders.module';
+import { ScoresModule } from './scores/scores.module';
+import { AddressesModule } from './addresses/addresses.module';
+import { RatingsModule } from './ratings/ratings.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -17,7 +25,15 @@ import { AppService } from './app.service';
       synchronize: true,
       logging: true,
     }
-    )],
+    ),
+    UsersModule,
+    BooksModule,
+    OrdersModule,
+    GenresModule,
+    ScoresModule,
+    AddressesModule,
+    RatingsModule,
+    ReviewsModule],
   controllers: [AppController],
   providers: [AppService],
 })
