@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Book } from 'src/books/entities/book.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStampEntity } from '../../generics/db/timestamp.entity';
 
 
@@ -9,5 +11,11 @@ export class Rating extends TimeStampEntity {
   
     @Column()
     score: number;
+
+    @ManyToOne(() => User, (user: User) => user.ratings)
+    user: User;
+
+    @ManyToOne(() => Book, (book: Book) => book.ratings)
+    book: Book;
 
 }

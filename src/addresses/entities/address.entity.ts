@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStampEntity } from '../../generics/db/timestamp.entity';
 
 
@@ -6,7 +7,7 @@ import { TimeStampEntity } from '../../generics/db/timestamp.entity';
 export class Address extends TimeStampEntity {
     @PrimaryGeneratedColumn()
     id: number;
-  
+
     @Column()
     address: string;
 
@@ -15,5 +16,9 @@ export class Address extends TimeStampEntity {
 
     @Column()
     code: number;
+
+    @ManyToOne(() => User, (user: User) => user.adreesses)
+    user: User;
+
 
 }

@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Book } from 'src/books/entities/book.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStampEntity } from '../../generics/db/timestamp.entity';
 
 
@@ -16,4 +18,9 @@ export class Order extends TimeStampEntity{
     @Column()
     total: number;
 
+    @ManyToOne(() => User, (user: User) => user.orders)
+    user: User;
+
+    @ManyToMany(type => Book)
+    books: Book[];
 }
