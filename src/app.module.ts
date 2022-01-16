@@ -10,6 +10,7 @@ import { AddressesModule } from './addresses/addresses.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { GenresModule } from './genres/genres.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { GenresModule } from './genres/genres.module';
     ScoresModule,
     AddressesModule,
     RatingsModule,
-    ReviewsModule],
+    ReviewsModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
