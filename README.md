@@ -1,10 +1,12 @@
 ## Running the app
 
-```bash
-# development watch
+To run server on port 3000 development on watch mode
+```
 $ npm run start:dev
+```
 
-# if you're using the application for the first time, you've got to seed the database
+If you're using the application for the first time, you've got to seed the database
+```
 $ npm run seed:db
 ```
 
@@ -13,8 +15,7 @@ $ npm run seed:db
 ```POST /auth/login``` 	=> token
 
 ```POST /auth/register``` 	=> new user (+score ) without pwd
-
-
+***
 ```GET /users``` 		=> [{users}]
 
 ```GET /users/id``` 		=> {user}
@@ -23,7 +24,7 @@ $ npm run seed:db
 
 ```DELETE /users/id```
 
-
+***
 ```GET /books```		=> [{books}]
 
 ```GET /books/id``` 		=> {book}
@@ -34,7 +35,7 @@ $ npm run seed:db
 
 ```DELETE /books/id```
 
-
+***
 ```GET /addresses```		=> [{addresses}]
 
 ```GET /addresses/id``` 	=> {address}
