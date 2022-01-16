@@ -30,4 +30,7 @@ export class CreateUserDto {
 
     role: UserRoleEnum;
 
+    @IsOptional()
+    score: Object;
+
 }

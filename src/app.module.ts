@@ -11,6 +11,7 @@ import { RatingsModule } from './ratings/ratings.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { GenresModule } from './genres/genres.module';
 import { AuthModule } from './auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { AuthModule } from './auth/auth.module';
     AddressesModule,
     RatingsModule,
     ReviewsModule,
-    AuthModule],
+    AuthModule,
+    MulterModule],
   controllers: [AppController],
   providers: [AppService],
 })
