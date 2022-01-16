@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { Genre } from 'src/genres/entities/genre.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { Rating } from 'src/ratings/entities/rating.entity';
@@ -23,17 +24,19 @@ export class Book extends TimeStampEntity {
     @Column()
     image: string;
 
-    @Column()
+    @Column({default:0})
     isValid: Boolean;
 
     @Column()
     language: string;
 
+    @Type((newType) => Number)
     @Column()
     nbrPages: number;
 
+    @Type((newType) => Number)
     @Column()
-    price: number;
+    price: Number;
 
     @Column()
     type: string;

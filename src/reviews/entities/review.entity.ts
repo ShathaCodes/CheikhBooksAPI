@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+import { IsNotEmpty } from 'class-validator';
 import { Book } from 'src/books/entities/book.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -9,10 +11,12 @@ export class Review extends TimeStampEntity {
     @PrimaryGeneratedColumn()
     id: number;
   
+    @IsNotEmpty()
     @Column()
     content: string;
 
-    @Column()
+    @Type((newType) => Number)
+    @Column({default : 0 })
     likes: number;
 
     @ManyToOne(() => User, (user: User) => user.reviews)

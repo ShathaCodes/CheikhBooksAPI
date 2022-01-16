@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { Address } from 'src/addresses/entities/address.entity';
 import { Book } from 'src/books/entities/book.entity';
 import { Order } from 'src/orders/entities/order.entity';
@@ -23,22 +25,30 @@ export class User extends TimeStampEntity {
   @Column()
   lastname: string;
 
+  @IsNotEmpty()
+  @IsEmail() 
   @Column({ unique: true })
   email: string;
 
+  @IsNotEmpty()
   @Column()
   password: string;
 
   @Column()
   avatar: string;
 
+  @IsOptional()
+  @IsDate()
+  @Type((newType) => Date)
   @Column()
   birthday: Date;
 
+  @Type((newType) => Number)
   @Column()
   phone: number;
 
-
+  @IsOptional()
+  @IsEnum(UserRoleEnum)
   @Column({
     type: 'enum',
     enum: UserRoleEnum,
