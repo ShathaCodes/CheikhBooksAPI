@@ -38,7 +38,7 @@ export class Book extends TimeStampEntity {
     @Column()
     price: Number;
 
-    @Column()
+    @Column({default:"paperback"})
     type: string;
 
     @ManyToOne(() => User, (user: User) => user.books)

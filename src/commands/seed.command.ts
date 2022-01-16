@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
-
+import * as bcrypt from 'bcrypt';
 import * as faker from "faker"
 import { AddressesService } from "src/addresses/addresses.service";
 import { Address } from "src/addresses/entities/address.entity";
@@ -9,7 +9,6 @@ import { Book } from "src/books/entities/book.entity";
 import { Genre } from "src/genres/entities/genre.entity";
 import { GenresService } from "src/genres/genres.service";
 import { Score } from "src/scores/entities/score.entity";
-import { ScoresService } from "src/scores/scores.service";
 import { User } from "src/users/entities/user.entity";
 import { UsersService } from "src/users/users.service";
 
@@ -41,13 +40,16 @@ async function bootstrap() {
     user.email = faker.internet.email();
     user.firstname = faker.name.firstName();
     user.lastname = faker.name.lastName();
-    user.phone = parseInt(faker.phone.phoneNumber());
+    user.phone = faker.datatype.number({ 'min': 10000000, 'max': 99999999 })
     user.birthday = faker.date.past();
     user.avatar = faker.image.avatar();
     user.adreesses = [];
-    user.adreesses.push(addresses[i]);
+    user.adreesses.push(addresses[i-1]);
     user.score = new Score();
-    user.password = i % 3 == 0 ? 'admin' : 'user';
+    let password = i % 3 == 0 ? 'admin' : 'user';
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = hashedPassword;
     await userService.create(user);
   }
   console.log('end seeding users');
@@ -77,6 +79,8 @@ async function bootstrap() {
     book.image = faker.image.abstract();
     book.price = parseFloat(faker.commerce.price());
     book.description = faker.lorem.sentence();
+    book.language = "English";
+    book.nbrPages = faker.datatype.number(1100);
     book.genres = [];
     book.genres.push(genres[faker.datatype.number(6)]);
     await bookService.create(book);
@@ -89,6 +93,8 @@ async function bootstrap() {
   book.image = faker.image.abstract();
   book.price = parseFloat(faker.commerce.price());
   book.description = faker.lorem.sentence();
+  book.language = "English";
+  book.nbrPages = faker.datatype.number(1100);
   book.genres = [];
   book.genres.push(genres[faker.datatype.number(6)]);
   book.user = user;
