@@ -14,17 +14,17 @@ import { GenresModule } from './genres/genres.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(
-    {
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: 3306,
-      username: 'root',
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: true,
-    }
+      {
+        type: 'mysql',
+        host: process.env.DB_HOST,
+        port: 3306,
+        username: 'root',
+        password: process.env.DB_PASSWORD,
+        database: "cheikhbooks",
+        autoLoadEntities: true,
+        synchronize: true,
+        logging: true,
+      }
     ),
     UsersModule,
     BooksModule,
@@ -37,4 +37,4 @@ import { GenresModule } from './genres/genres.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

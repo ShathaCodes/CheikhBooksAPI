@@ -14,7 +14,7 @@ export class OrdersController {
 
   @Get()
   findAll() {
-    return this.ordersService.findAll();
+    return this.ordersService.findAll({});
   }
 
   @Get(':id')

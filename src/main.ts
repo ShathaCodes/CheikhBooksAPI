@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   dotenv.config();
-  console.log(process.env.DB_USER);
+  console.log("*******************************" , process.env.DB_USER);
   app.use(morgan('dev'));
   app.use(helmet());
   await app.listen(3000);

@@ -23,7 +23,7 @@ export class User extends TimeStampEntity {
   @Column()
   lastname: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -49,7 +49,7 @@ export class User extends TimeStampEntity {
   @OneToMany((targetEntity) => Address, (address) => address.user, {})
   adreesses: Address[];
 
-  @OneToOne(type => Score)
+  @OneToOne(type => Score,{ cascade: ['insert', 'update'] })
   @JoinColumn()
   score: Score;
 

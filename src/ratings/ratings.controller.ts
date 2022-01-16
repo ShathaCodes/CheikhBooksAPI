@@ -14,7 +14,7 @@ export class RatingsController {
 
   @Get()
   findAll() {
-    return this.ratingsService.findAll();
+    return this.ratingsService.findAll({});
   }
 
   @Get(':id')

@@ -7,6 +7,6 @@ export class Score extends TimeStampEntity{
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column()
+    @Column({default: () => 0})
     value: number;
 }

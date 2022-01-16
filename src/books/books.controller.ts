@@ -14,7 +14,7 @@ export class BooksController {
 
   @Get()
   findAll() {
-    return this.booksService.findAll();
+    return this.booksService.findAll({});
   }
 
   @Get(':id')

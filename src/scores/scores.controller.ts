@@ -14,7 +14,7 @@ export class ScoresController {
 
   @Get()
   findAll() {
-    return this.scoresService.findAll();
+    return this.scoresService.findAll({});
   }
 
   @Get(':id')
