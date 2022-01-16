@@ -4,7 +4,7 @@
 # development watch
 $ npm run start:dev
 
-# if you're using the application for the first time, you've to seed the database
+# if you're using the application for the first time, you've got to seed the database
 $ npm run seed:db
 ```
 
