@@ -19,7 +19,7 @@ export class ScoresController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.scoresService.findOne(+id);
+    return this.scoresService.findOne(+id,{});
   }
 
   @Patch(':id')

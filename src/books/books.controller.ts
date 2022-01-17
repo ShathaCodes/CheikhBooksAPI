@@ -33,12 +33,12 @@ export class BooksController {
 
   @Get()
   findAll() {
-    return this.booksService.findAll({});
+    return this.booksService.findAll({relations: ["genres"]});
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+    return this.booksService.findOne(+id,{relations: ["genres","reviews","ratings"]});
   }
 
   @Patch(':id')

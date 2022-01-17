@@ -12,7 +12,7 @@ export class Genre extends TimeStampEntity {
     name: string;
 
 
-    @ManyToMany(type => Book)
+    @ManyToMany(type => Book,(book:Book) => book.genres)
     books : Book[]; 
 
 }

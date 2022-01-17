@@ -1,4 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/decorators/user.decorator';
+import { User } from 'src/users/entities/user.entity';
 import { AddressesService } from './addresses.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
@@ -13,13 +16,16 @@ export class AddressesController {
   }
 
   @Get()
-  findAll() {
-    return this.addressesService.findAll({});
+  @UseGuards(AuthGuard('jwt'))
+  findAll(@GetUser() user: User) {
+    return this.addressesService.findAll({where: {
+      user: user.id
+    },});
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.addressesService.findOne(+id);
+    return this.addressesService.findOne(+id,{});
   }
 
   @Patch(':id')

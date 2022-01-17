@@ -26,6 +26,6 @@ export class Order extends TimeStampEntity {
     @ManyToOne(() => User, (user: User) => user.orders)
     user: User;
 
-    @ManyToMany(type => Book)
+    @ManyToMany(type => Book,(book: Book) => book.orders)
     books: Book[];
 }

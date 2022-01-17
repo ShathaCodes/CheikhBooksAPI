@@ -44,7 +44,7 @@ export class Book extends TimeStampEntity {
     @ManyToOne(() => User, (user: User) => user.books)
     user: User;
 
-    @ManyToMany(type => Genre)
+    @ManyToMany(type => Genre,(genre:Genre) => genre.books)
     @JoinTable({
         name: "book_genres", // nom de la table à générer
         joinColumn: {
@@ -58,7 +58,7 @@ export class Book extends TimeStampEntity {
     })
     genres: Genre[];
 
-    @ManyToMany(type => Order)
+    @ManyToMany(type => Order,(order:Order)=> order.books)
     @JoinTable({
         name: "book_orders", // nom de la table à générer
         joinColumn: {

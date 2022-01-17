@@ -19,7 +19,7 @@ export class GenresController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.genresService.findOne(+id);
+    return this.genresService.findOne(+id,{relations: ["books"]});
   }
 
   @Patch(':id')

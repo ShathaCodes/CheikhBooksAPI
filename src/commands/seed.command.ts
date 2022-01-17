@@ -85,7 +85,7 @@ async function bootstrap() {
     book.genres.push(genres[faker.datatype.number(6)]);
     await bookService.create(book);
   }
-  const user = await userService.findOne(1);
+  const user = await userService.findOne(1,{});
   const book = new Book();
   book.title = faker.lorem.words();
   book.author = faker.name.findName();
