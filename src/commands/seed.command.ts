@@ -11,6 +11,12 @@ import { GenresService } from "src/genres/genres.service";
 import { Score } from "src/scores/entities/score.entity";
 import { User } from "src/users/entities/user.entity";
 import { UsersService } from "src/users/users.service";
+import { RatingsService } from 'src/ratings/ratings.service';
+import { Rating } from 'src/ratings/entities/rating.entity';
+import { Review } from 'src/reviews/entities/review.entity';
+import { ReviewsService } from 'src/reviews/reviews.service';
+import { OrdersService } from 'src/orders/orders.service';
+import { Order } from 'src/orders/entities/order.entity';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
@@ -44,7 +50,7 @@ async function bootstrap() {
     user.birthday = faker.date.past();
     user.avatar = faker.image.avatar();
     user.adreesses = [];
-    user.adreesses.push(addresses[i-1]);
+    user.adreesses.push(addresses[i - 1]);
     user.score = new Score();
     let password = i % 3 == 0 ? 'admin' : 'user';
     const salt = await bcrypt.genSalt();
@@ -85,7 +91,8 @@ async function bootstrap() {
     book.genres.push(genres[faker.datatype.number(6)]);
     await bookService.create(book);
   }
-  const user = await userService.findOne(1,{});
+  //book added by a user
+  const user = await userService.findOne(1, {});
   const book = new Book();
   book.title = faker.lorem.words();
   book.author = faker.name.findName();
@@ -100,6 +107,47 @@ async function bootstrap() {
   book.user = user;
   await bookService.create(book);
   console.log('end seeding books');
+
+  // Todo : Seed Ratings
+  const ratingService = app.get(RatingsService);
+  console.log('seeding ratings');
+  const users = await userService.findAll({});
+  const books = await bookService.findAll({});
+  for (let i = 1; i < 8; i++) {
+    const rating = new Rating();
+    rating.score = faker.datatype.number(5)
+    rating.book = books[i];
+    rating.user = users[i]
+    await ratingService.create(rating);
+  }
+  console.log('end seeding ratings');
+
+  // Todo : Seed Reviews
+  const reviewService = app.get(ReviewsService);
+  console.log('seeding reviews');
+  for (let i = 1; i < 8; i++) {
+    const review = new Review();
+    review.content = faker.lorem.sentence();
+    review.book = books[i];
+    review.user = users[i]
+    await reviewService.create(review);
+  }
+  console.log('end seeding reviews');
+
+  // Todo : Seed Orders
+  const orderService = app.get(OrdersService);
+  console.log('seeding orders');
+  for (let i = 0; i < 6; i++) {
+    const order = new Order();
+    order.user = users[i]
+    order.books = []
+    order.books.push(books[i])
+    order.shipped = false
+    order.total = books[i].price
+    order.date = new Date()
+    await orderService.create(order);
+  }
+  console.log('end seeding orders');
 
   await app.close();
 }

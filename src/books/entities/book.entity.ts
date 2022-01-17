@@ -36,7 +36,7 @@ export class Book extends TimeStampEntity {
 
     @Type((newType) => Number)
     @Column()
-    price: Number;
+    price: number;
 
     @Column({default:"paperback"})
     type: string;
