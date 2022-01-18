@@ -28,83 +28,83 @@ Don't forget to create .env file for the project with keys :
 
 ```GET /users/id``` 		=> {user(+score)}
 
-```Patch /users/id```		=> {user}
+```Patch /users/id```		=> {user} if user in token
 
-```DELETE /users/id```
+```DELETE /users/id``` if user in token
 
 ***
 ```GET /addresses```		=> [{addresses for user}]
 
 ```GET /addresses/id``` 	=> {address}
 
-```POST /addresses```		=> {address}
+```POST /addresses```		=> {address} if user in token
 
-```Patch /addresses/id```	=> {address}
+```Patch /addresses/id```	=> {address} if user in token
 
-```DELETE /addresses/id```
+```DELETE /addresses/id``` if user in token
 
 ***
-```GET /books```		=> [{books (+genres)}]
+```GET /books```		=> [{books (+genres)}] + can add query param ?genre=id
 
 ```GET /books/id``` 		=> {book(+genres+ratings+reviews)}
 
-```POST /books```		=> {book}
+```POST /books```		=> {book} if user in token
 
-```Patch /books/id```		=> {book}
+```Patch /books/id```		=> {book} if book owned by user in token
 
-```DELETE /books/id```
+```DELETE /books/id``` if book owned by user in token
 
 ***
 ```GET /genres```		=> [{genres}]
 
 ```GET /genres/id``` 	=> {genre (+books)}
 
-```POST /genres```		=> {genre}
+```POST /genres```		=> {genre} admin?
 
-```Patch /genres/id```	=> {genre}
+```Patch /genres/id```	=> {genre} admin?
 
-```DELETE /genres/id```
+```DELETE /genres/id``` admin?
 
 ***
-```GET /orders```		=> [{orders}]
+```GET /orders```		=> [{orders}] for user
 
 ```GET /orders/id``` 	=> {order}
 
-```POST /orders```		=> {order}
+```POST /orders```		=> {order} if user in token
 
-```Patch /orders/id```	=> {order}
+```Patch /orders/id```	=> {order} if order owned by user in token
 
-```DELETE /orders/id```
+```DELETE /orders/id``` if order owned by user in token
 
 ***
 ```GET /ratings```		=> [{ratings}]
 
 ```GET /ratings/id``` 	=> {rating}
 
-```POST /ratings```		=> {rating}
+```POST /ratings```		=> {rating} if user in token
 
-```Patch /ratings/id```	=> {rating}
+```Patch /ratings/id```	=> {rating} if rating owned by user in token
 
-```DELETE /ratings/id```
+```DELETE /ratings/id``` if rating owned by user in token
 
 ***
 ```GET /reviews```		=> [{reviews}]
 
 ```GET /reviews/id``` 	=> {review}
 
-```POST /reviews```		=> {review}
+```POST /reviews```		=> {review} if user in token
 
-```Patch /reviews/id```	=> {review}
+```Patch /reviews/id```	=> {review} if review owned by user in token ( click like?)
 
-```DELETE /reviews/id```
+```DELETE /reviews/id``` if review owned by user in token
 
 ***
-```GET /scores```		=> [{scores}]
+```GET /scores```		=> [{scores}] not needed...
 
-```GET /scores/id``` 	=> {score}
+```GET /scores/id``` 	=> {score} not needed...
 
-```POST /scores```		=> {score}
+```POST /scores```		=> {score} not needed...
 
-```Patch /scores/id```	=> {score}
+```Patch /scores/id```	=> {score} if score owned by user in token
 
-```DELETE /scores/id```
+```DELETE /scores/id``` => not needed ( cascade delete when user deleted)

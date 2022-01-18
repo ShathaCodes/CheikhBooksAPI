@@ -14,4 +14,17 @@ export class BooksService extends CrudService<Book> {
   ) {
     super(bookRepository);
   }
+
+  findAllSearch(genre: string): Promise<any[]> {
+    const query = this.bookRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect(
+        'book.genres',
+        'genre')
+      .where("book.isValid = 1");
+    if (genre) {
+      query.andWhere('genre.id = :id', { id: genre })
+    }
+    return query.getMany();
+  }
 }

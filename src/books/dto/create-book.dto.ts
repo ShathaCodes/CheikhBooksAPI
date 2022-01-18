@@ -1,4 +1,5 @@
 import { Type } from "class-transformer";
+import { User } from "src/users/entities/user.entity";
 
 export class CreateBookDto {
 
@@ -21,5 +22,7 @@ export class CreateBookDto {
     price: Number;
 
     type: string;
+    
+    user : User;
 
 }

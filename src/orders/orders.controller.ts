@@ -1,34 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/users/entities/user.entity';
+import { GetUser } from 'src/auth/decorators/user.decorator';
 
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService) { }
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
+  @UseGuards(AuthGuard('jwt'))
+  create(@GetUser() user: User, @Body() createOrderDto: CreateOrderDto) {
+    createOrderDto.user = user;
     return this.ordersService.create(createOrderDto);
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll({});
+  @UseGuards(AuthGuard('jwt'))
+  findAll(@GetUser() user: User) {
+    return this.ordersService.findAll({
+      where: {
+        user: user.id
+      },
+    });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id,{});
+    return this.ordersService.findOne(+id, {});
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(+id, updateOrderDto);
+  @UseGuards(AuthGuard('jwt'))
+  async update(@GetUser() user: User, @Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    const order = await this.ordersService.findOne(+id, { "relations": ["user"] })
+    if (order.user.id === user.id)
+      return this.ordersService.update(+id, updateOrderDto);
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  @UseGuards(AuthGuard('jwt'))
+  async remove(@GetUser() user: User, @Param('id') id: string) {
+    const order = await this.ordersService.findOne(+id, { "relations": ["user"] })
+    if (order.user.id === user.id)
+      return this.ordersService.remove(+id);
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+
   }
 }
