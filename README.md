@@ -24,13 +24,13 @@ Don't forget to create .env file for the project with keys :
 
 ```POST /auth/register``` 	=> {new user (+score ) without pwd}
 ***
-```GET /users``` 		=> [{users(+score)}]
+```GET /users``` 		=> [{users(+score)}] ```admin```
 
 ```GET /users/id``` 		=> {user(+score)}
 
-```Patch /users/id```		=> {user} if user in token
+```Patch /users/id```		=> {user} if user in token || ```admin```
 
-```DELETE /users/id``` if user in token
+```DELETE /users/id``` if user in token || ```admin```
 
 ***
 ```GET /addresses```		=> [{addresses for user}]
@@ -52,22 +52,22 @@ Don't forget to create .env file for the project with keys :
 
 ```GET /books/id``` 		=> {book(+genres+ratings+reviews)}
 
-```POST /books```		=> {book} if user in token
+```POST /books```		=> {book} if user in token || ```admin```
 
-```Patch /books/id```		=> {book} if book owned by user in token
+```Patch /books/id```		=> {book} if book owned by user in token || ```admin```
 
-```DELETE /books/id``` if book owned by user in token
+```DELETE /books/id``` if book owned by user in token || ```admin```
 
 ***
 ```GET /genres```		=> [{genres}]
 
 ```GET /genres/id``` 	=> {genre (+books)}
 
-```POST /genres```		=> {genre} admin?
+```POST /genres```		=> {genre} ```admin```
 
-```Patch /genres/id```	=> {genre} admin?
+```Patch /genres/id```	=> {genre} ```admin```
 
-```DELETE /genres/id``` admin?
+```DELETE /genres/id``` ```admin```
 
 ***
 ```GET /orders```		=> [{orders}] for user

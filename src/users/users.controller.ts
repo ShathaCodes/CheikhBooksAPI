@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserRoleEnum } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decorators/user.decorator';
 import { User } from './entities/user.entity';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { RolesGuard } from 'src/auth/guards/role.guard';
 
 @Controller('users')
 export class UsersController {
@@ -16,6 +18,8 @@ export class UsersController {
     }
   */
   @Get()
+  @Roles('admin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   findAll() {
     return this.usersService.findAll({ relations: ["score"] });
   }
@@ -28,7 +32,7 @@ export class UsersController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   update(@GetUser() user: User, @Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    if (id === user.id + "")
+    if (id === user.id + "" || user.role == UserRoleEnum.admin)
       return this.usersService.update(+id, updateUserDto);
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
@@ -36,7 +40,7 @@ export class UsersController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@GetUser() user: User, @Param('id') id: string) {
-    if (id === user.id + "")
+    if (id === user.id + "" || user.role == UserRoleEnum.admin)
       return this.usersService.remove(+id);
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
