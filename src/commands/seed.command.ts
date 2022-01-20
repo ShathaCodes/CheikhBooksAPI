@@ -113,11 +113,11 @@ async function bootstrap() {
   console.log('seeding ratings');
   const users = await userService.findAll({});
   const books = await bookService.findAll({});
-  for (let i = 1; i < 8; i++) {
+  for (let i = 1; i < 16; i++) {
     const rating = new Rating();
     rating.score = faker.datatype.number(5)
-    rating.book = books[i];
-    rating.user = users[i]
+    rating.book = books[faker.datatype.number(9)];
+    rating.user = users[i%8];
     await ratingService.create(rating);
   }
   console.log('end seeding ratings');

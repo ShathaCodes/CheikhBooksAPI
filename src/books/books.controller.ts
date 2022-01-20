@@ -36,8 +36,20 @@ export class BooksController {
   }
 
   @Get()
-  findAll(@Query() query ) {
-    return this.booksService.findAllSearch(query["genre"]);
+  findAll(@Query("genre") query) {
+    if (query)
+      return this.booksService.findAllSearch(query.split(","));
+    return this.booksService.findAll({ relations: ["genres"] });
+  }
+
+  @Get("search")
+  search(@Query("name") query) {
+    return this.booksService.search(query);
+  }
+
+  @Get("popular")
+  popular() {
+    return this.booksService.findPopular();
   }
 
   @Get(':id')

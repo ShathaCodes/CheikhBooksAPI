@@ -44,7 +44,11 @@ Don't forget to create .env file for the project with keys :
 ```DELETE /addresses/id``` if user in token
 
 ***
-```GET /books```		=> [{books (+genres)}] + can add query param ?genre=id
+```GET /books?genre=id```		=> [{books (+genres)}] + can add query param ?genre=id,id2,id3
+
+```GET /books/search?name=```		=> [{books (+genres)}] + can add query param ?name=title/author
+
+```GET /books/popular```		=> [{books sorted by avg rating score}] 
 
 ```GET /books/id``` 		=> {book(+genres+ratings+reviews)}
 
