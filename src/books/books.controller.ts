@@ -22,9 +22,6 @@ export class BooksController {
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
-      limits: {
-        fileSize: 10000
-      }
     }),
   )
   @Post()
