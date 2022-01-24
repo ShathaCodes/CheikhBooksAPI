@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   dotenv.config();
   console.log("*******************************" , process.env.DB_USER);
   app.use(morgan('dev'));

@@ -65,7 +65,7 @@ async function bootstrap() {
   // Todo : Seed Genre
   const genreService = app.get(GenresService);
   console.log('seeding genres');
-  const names = ["Textbooks", "Science", "History", "Biography", "Adventure", "Fantasy"]
+  const names = ["Novel", "Science", "History", "Biography", "Adventure", "Fantasy"]
   for (let i = 0; i < 6; i++) {
     const genre = new Genre();
     genre.name = names[i];
