@@ -46,7 +46,7 @@ Don't forget to create .env file for the project with keys :
 ***
 ```GET /books?genre=id```		=> [{books (+genres)}] + can add query param ?genre=id,id2,id3
 
-```GET /books/search?name=```		=> [{books (+genres)}] + can add query param ?name=title/author
+```GET /books/search?name=&genre=ids```		=> [{books (+genres)}] + can add query param ?name=title/author &genre=id,id2,id3
 
 ```GET /books/popular```		=> [{books sorted by avg rating score}] 
 
@@ -72,13 +72,15 @@ Don't forget to create .env file for the project with keys :
 ***
 ```GET /orders```		=> [{orders}] for user
 
+```GET /orders/all```		=> [{orders}] ```admin```
+
 ```GET /orders/id``` 	=> {order}
 
-```POST /orders```		=> {order} if user in token
+```POST /orders```		=> {order} if user in token || ```admin```
 
-```Patch /orders/id```	=> {order} if order owned by user in token
+```Patch /orders/id```	=> {order} if order owned by user in token || ```admin```
 
-```DELETE /orders/id``` if order owned by user in token
+```DELETE /orders/id``` if order owned by user in token || ```admin```
 
 ***
 ```GET /ratings```		=> [{ratings}]

@@ -3,7 +3,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/users/entities/user.entity';
+import { User, UserRoleEnum } from 'src/users/entities/user.entity';
 import { GetUser } from 'src/auth/decorators/user.decorator';
 
 @Controller('orders')
@@ -27,6 +27,14 @@ export class OrdersController {
     });
   }
 
+  @Get("all")
+  @UseGuards(AuthGuard('jwt'))
+  findAllOrders(@GetUser() user: User) {
+    if (user.role == UserRoleEnum.admin)
+      return this.ordersService.findAll({});
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ordersService.findOne(+id, {});
@@ -36,7 +44,7 @@ export class OrdersController {
   @UseGuards(AuthGuard('jwt'))
   async update(@GetUser() user: User, @Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     const order = await this.ordersService.findOne(+id, { "relations": ["user"] })
-    if (order.user.id === user.id)
+    if (order.user.id === user.id || user.role == UserRoleEnum.admin)
       return this.ordersService.update(+id, updateOrderDto);
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
@@ -45,7 +53,7 @@ export class OrdersController {
   @UseGuards(AuthGuard('jwt'))
   async remove(@GetUser() user: User, @Param('id') id: string) {
     const order = await this.ordersService.findOne(+id, { "relations": ["user"] })
-    if (order.user.id === user.id)
+    if (order.user.id === user.id || user.role == UserRoleEnum.admin)
       return this.ordersService.remove(+id);
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 

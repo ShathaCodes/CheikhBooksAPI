@@ -41,8 +41,8 @@ export class BooksController {
   }
 
   @Get("search")
-  search(@Query("name") query) {
-    return this.booksService.search(query);
+  search(@Query("name") name, @Query("genre") genre) {
+    return this.booksService.search(name, genre);
   }
 
   @Get("popular")

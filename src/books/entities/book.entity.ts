@@ -24,7 +24,7 @@ export class Book extends TimeStampEntity {
     @Column()
     image: string;
 
-    @Column({default:0})
+    @Column({ default: 0 })
     isValid: Boolean;
 
     @Column()
@@ -38,13 +38,16 @@ export class Book extends TimeStampEntity {
     @Column()
     price: number;
 
-    @Column({default:"paperback"})
+    @Column({ default: "paperback" })
     type: string;
+
+    @Column({ default: false })
+    sold: boolean;
 
     @ManyToOne(() => User, (user: User) => user.books)
     user: User;
 
-    @ManyToMany(type => Genre,(genre:Genre) => genre.books)
+    @ManyToMany(type => Genre, (genre: Genre) => genre.books)
     @JoinTable({
         name: "book_genres", // nom de la table à générer
         joinColumn: {
@@ -58,7 +61,7 @@ export class Book extends TimeStampEntity {
     })
     genres: Genre[];
 
-    @ManyToMany(type => Order,(order:Order)=> order.books)
+    @ManyToMany(type => Order, (order: Order) => order.books)
     @JoinTable({
         name: "book_orders", // nom de la table à générer
         joinColumn: {

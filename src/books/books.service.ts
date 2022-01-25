@@ -39,7 +39,7 @@ export class BooksService extends CrudService<Book> {
     return query.getMany();
   }
 
-  search(name: string): Promise<any[]> {
+  search(name: string, genre): Promise<any[]> {
     const query = this.bookRepository
       .createQueryBuilder('book')
       .leftJoinAndSelect(
@@ -51,6 +51,22 @@ export class BooksService extends CrudService<Book> {
         qb.where("book.title like :name", { name: `%${name}%` })
           .orWhere("book.author like :name", { name: `%${name}%` })
       }))
+    }
+    if (genre) {
+      let genres = genre.split(",")
+      query.andWhere(new Brackets(qb => {
+        let i = 0;
+        while (genres.length > 0) {
+          const g = genres.pop();
+          let param = {}
+          param["id" + i] = g
+          if (i === 0)
+            qb.where('genre.id = :id' + i, param);
+          else
+            qb.orWhere('genre.id = :id' + i, param);
+          i++;
+        }
+      }));
     }
     return query.getMany();
   }
