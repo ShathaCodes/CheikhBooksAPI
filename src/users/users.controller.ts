@@ -17,13 +17,18 @@ export class UsersController {
       return this.usersService.create(createUserDto);
     }
   */
-  @Get()
   @Roles('admin')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Get('all')
   findAll() {
     return this.usersService.findAll({ relations: ["score"] });
   }
 
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  find(@GetUser() user: User) {
+    return this.usersService.findOne(user.id, { relations: ["score", "books"] });
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id, { relations: ["score"] });
