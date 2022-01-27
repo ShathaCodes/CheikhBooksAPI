@@ -7,6 +7,7 @@ import { GetUser } from 'src/auth/decorators/user.decorator';
 import { User } from './entities/user.entity';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { RolesGuard } from 'src/auth/guards/role.guard';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -27,7 +28,7 @@ export class UsersController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   find(@GetUser() user: User) {
-    return this.usersService.findOne(user.id, { relations: ["score", "books"] });
+    return this.usersService.findOne(user.id, { relations: ["score", "books", "adreesses"] });
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -36,9 +37,15 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(@GetUser() user: User, @Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    if (id === user.id + "" || user.role == UserRoleEnum.admin)
+  async update(@GetUser() user: User, @Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    if (id === user.id + "" || user.role == UserRoleEnum.admin) {
+      let password = updateUserDto.password;
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(password, salt);
+      updateUserDto.password = hashedPassword;
       return this.usersService.update(+id, updateUserDto);
+    }
+
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
